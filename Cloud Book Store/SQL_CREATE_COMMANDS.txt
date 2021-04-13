@@ -1,0 +1,66 @@
+BEGIN;
+--
+-- Create model Book
+--
+CREATE TABLE "newApp_book" ("book_id" varchar(10) NOT NULL PRIMARY KEY, "title" varchar(50) NOT NULL, "author" varchar(50) NOT NULL, "publisher" varchar(50) NOT NULL, "genre" varchar(20) NOT NULL, "year_of_publish" integer NOT NULL, "price" integer NOT NULL, "copies_sold" integer NOT NULL, "rating" integer NOT NULL);
+--
+-- Create model Book_store
+--
+CREATE TABLE "newApp_book_store" ("store_id" varchar(10) NOT NULL PRIMARY KEY, "store_name" varchar(100) NOT NULL, "email" varchar(254) NOT NULL, "password" varchar(50) NOT NULL, "website" varchar(50) NOT NULL, "phone_no" varchar(10) NOT NULL, "rating" integer NOT NULL, "address_line1" varchar(100) NOT NULL, "address_line2" varchar(100) NOT NULL, "city" varchar(50) NOT NULL, "district" varchar(50) NOT NULL, "state" varchar(50) NOT NULL, "zip_code" varchar(6) NOT NULL);
+--
+-- Create model Customer
+--
+CREATE TABLE "newApp_customer" ("user_id" varchar(10) NOT NULL PRIMARY KEY, "email" varchar(254) NOT NULL, "password" varchar(50) NOT NULL, "first_name" varchar(50) NOT NULL, "middle_name" varchar(50) NOT NULL, "last_name" varchar(50) NOT NULL, "phone_no" varchar(50) NOT NULL);
+--
+-- Create model user_list
+--
+CREATE TABLE "newApp_user_list" ("user_list_entry" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "store_id_id" varchar(10) NOT NULL REFERENCES "newApp_book_store" ("store_id") DEFERRABLE INITIALLY DEFERRED, "user_id_id" varchar(10) NOT NULL REFERENCES "newApp_customer" ("user_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model To_read_list
+--
+CREATE TABLE "newApp_to_read_list" ("read_list_id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "book_id_id" varchar(10) NOT NULL REFERENCES "newApp_book" ("book_id") DEFERRABLE INITIALLY DEFERRED, "user_id_id" varchar(10) NOT NULL REFERENCES "newApp_customer" ("user_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Review
+--
+CREATE TABLE "newApp_review" ("description" varchar(200) NOT NULL, "review_id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "book_id_id" varchar(10) NOT NULL REFERENCES "newApp_book" ("book_id") DEFERRABLE INITIALLY DEFERRED, "user_id_id" varchar(10) NOT NULL REFERENCES "newApp_customer" ("user_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Order
+--
+CREATE TABLE "newApp_order" ("order_id" varchar(10) NOT NULL PRIMARY KEY, "status" varchar(1) NOT NULL, "date_of_order" datetime NOT NULL, "expected_delivery_date" date NULL, "deliverd_date" date NULL, "total_price" real NOT NULL, "store_id_id" varchar(10) NOT NULL REFERENCES "newApp_book_store" ("store_id") DEFERRABLE INITIALLY DEFERRED, "user_id_id" varchar(10) NOT NULL REFERENCES "newApp_customer" ("user_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Customer_address
+--
+CREATE TABLE "newApp_customer_address" ("address_id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "address_no" integer NOT NULL, "address_line1" varchar(100) NOT NULL, "address_line2" varchar(100) NOT NULL, "city" varchar(50) NOT NULL, "district" varchar(50) NOT NULL, "state" varchar(50) NOT NULL, "zip_code" varchar(6) NOT NULL, "user_id_id" varchar(10) NOT NULL REFERENCES "newApp_customer" ("user_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Complaint_record
+--
+CREATE TABLE "newApp_complaint_record" ("complain_no" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "description" varchar(200) NOT NULL, "order_id_id" varchar(10) NOT NULL REFERENCES "newApp_order" ("order_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Cart
+--
+CREATE TABLE "newApp_cart" ("cart_id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "date_of_entry" date NOT NULL, "book_id_id" varchar(10) NOT NULL REFERENCES "newApp_book" ("book_id") DEFERRABLE INITIALLY DEFERRED, "user_id_id" varchar(10) NOT NULL REFERENCES "newApp_customer" ("user_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Book_ordered
+--
+CREATE TABLE "newApp_book_ordered" ("Book_ordered_id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "book_id_id" varchar(10) NOT NULL REFERENCES "newApp_book" ("book_id") DEFERRABLE INITIALLY DEFERRED, "order_id_id" varchar(10) NOT NULL REFERENCES "newApp_order" ("order_id") DEFERRABLE INITIALLY DEFERRED);
+--
+-- Create model Book_available
+--
+CREATE TABLE "newApp_book_available" ("no_of_copies" integer NOT NULL, "book_available_id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "book_id_id" varchar(10) NOT NULL REFERENCES "newApp_book" ("book_id") DEFERRABLE INITIALLY DEFERRED, "user_id_id" varchar(10) NOT NULL REFERENCES "newApp_customer" ("user_id") DEFERRABLE INITIALLY DEFERRED);
+CREATE INDEX "newApp_user_list_store_id_id_524e9ced" ON "newApp_user_list" ("store_id_id");
+CREATE INDEX "newApp_user_list_user_id_id_1c1e7c51" ON "newApp_user_list" ("user_id_id");
+CREATE INDEX "newApp_to_read_list_book_id_id_e2deefea" ON "newApp_to_read_list" ("book_id_id");
+CREATE INDEX "newApp_to_read_list_user_id_id_9ceb5e65" ON "newApp_to_read_list" ("user_id_id");
+CREATE INDEX "newApp_review_book_id_id_76f5565b" ON "newApp_review" ("book_id_id");
+CREATE INDEX "newApp_review_user_id_id_f6a56867" ON "newApp_review" ("user_id_id");
+CREATE INDEX "newApp_order_store_id_id_d12ff6cc" ON "newApp_order" ("store_id_id");
+CREATE INDEX "newApp_order_user_id_id_ce904935" ON "newApp_order" ("user_id_id");
+CREATE INDEX "newApp_customer_address_user_id_id_ee337d06" ON "newApp_customer_address" ("user_id_id");
+CREATE INDEX "newApp_complaint_record_order_id_id_b322d9db" ON "newApp_complaint_record" ("order_id_id");
+CREATE INDEX "newApp_cart_book_id_id_b1c52eac" ON "newApp_cart" ("book_id_id");
+CREATE INDEX "newApp_cart_user_id_id_5100ca25" ON "newApp_cart" ("user_id_id");
+CREATE INDEX "newApp_book_ordered_book_id_id_d39f4b0e" ON "newApp_book_ordered" ("book_id_id");
+CREATE INDEX "newApp_book_ordered_order_id_id_f73645c1" ON "newApp_book_ordered" ("order_id_id");
+CREATE INDEX "newApp_book_available_book_id_id_ab3babae" ON "newApp_book_available" ("book_id_id");
+CREATE INDEX "newApp_book_available_user_id_id_4c1dfcc2" ON "newApp_book_available" ("user_id_id");
+COMMIT;

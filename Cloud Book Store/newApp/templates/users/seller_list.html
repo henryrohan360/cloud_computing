@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Seller List</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Style the header */
+.header {
+  background-color: #EDBD4C;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: right;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+}
+
+/* Left and right column */
+.column.side {
+  width: 25%;
+}
+
+/* Middle column */
+.column.middle {
+  width: 50%;
+  text-align: center;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+  }
+  
+    
+.button {
+  display: inline-block;
+  background-color: #0f2453;
+  border: ;
+  color: white;
+  padding: 10px 40px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color:#2853FE;
+}
+
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column.side, .column.middle {
+    width: 100%;
+  }
+}
+
+/* Style the footer */
+.footer {
+  background-color: #EDBD4C;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  height: 50px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+  
+
+}
+</style>
+</head>
+<body>
+
+<!-- {% if messages %}
+  <ul class="messages">
+    {% for message in messages%}
+      <li class="{{message.tags}}">{{message}}</li>
+      {%endfor%}
+    </ul>
+  {%endif%}
+ -->
+<div class="header">
+ <h1>Online Book Store System</h1>
+  <p style="font-family:times new roman;font-size:140%";>SELLER LIST</p>
+
+</div>
+
+<div class="topnav">
+ <a href="/user/profile">HomePage</a>
+</div>
+
+<div class="row">
+  <div class="column side">
+    <p style="font-family:arial;font-size:90%;line-height:1.2";>
+   <h2 style="font-family:times new roman;font-size:120%";>Profile Info :</h2>
+     User Name  : {{username}}<br><br>
+     User Email : {{email}}<br><br>
+    </p>
+  </div>
+  
+  <div class="column middle">
+  <h3 style="color:#0f2453;border:2px solid #ddd">Stores</h3>
+        {% if storeList %}
+
+                        <table border="2" align="center">
+                        <tr style="background-color: #0f2453">
+                            <th style="color: white">Sr No</th>
+                            <th style="color: white">Store Name</th>
+                            <th style="color: white">Email</th>
+                            <th style="color: white">Phone No</th>
+                            <th style="color: white">Website</th>                                                       
+                            <th style="color: white">Address</th>
+                            
+                        </tr>
+
+
+                        {% for store in storeList %}
+                                        
+                        <tr>
+                            <form method="post"  >{% csrf_token %}
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ store.store_name }}</td>
+                            <td>{{ store.email }}</td>
+                            <td>{{ store.phone_no }}</td>
+                            <td><a href = {{ store.href }} >{{ store.website }}</a></td>
+                            <td>
+                                <br><button class="button" style="width: 100%"  formaction="{% url 'sellerListStoreAddress' store.email %}">Address</button>
+                                <br><br>
+                            </td>
+                            </form>
+                            
+                        </tr>
+                        {% endfor %}
+                      </table>
+                      
+
+                      
+        {% else %}
+            <h3 align="center">No Sellers available</h3> 
+        {% endif %}
+
+</div>
+  
+  <div class="column side">
+    <h2></h2>
+    <p></p>
+  </div>
+</div>
+
+<div class="">
+  <p></p>
+</div>
+  
+</body>
+</html>               
+
+      

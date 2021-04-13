@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Trending Books</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+ box-sizing: border-box;
+}
+
+body {
+ margin: 0;
+}
+
+/* Style the header */
+.header {
+ background-color: #EDBD4C;
+ padding: 20px;
+ text-align: center;
+}
+
+/* Style the top navigation bar */
+.topnav {
+ overflow: hidden;
+ background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+ float: right;
+ display: block;
+ color: #f2f2f2;
+ text-align: center;
+ padding: 14px 16px;
+ text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+ background-color: #ddd;
+ color: black;
+}
+
+/* Create three unequal columns that floats next to each other */
+.column {
+ float: left;
+ padding: 10px;
+}
+
+/* Left and right column */
+.column.side {
+ width: 25%;
+}
+
+/* Middle column */
+.column.middle {
+ width: 50%;
+ text-align: center;
+}
+
+/* Clear floats after the columns */
+.row:after {
+ content: "";
+ display: table;
+ clear: both;
+ }
+ 
+   
+.button {
+ display: inline-block;
+ background-color: #0f2453;
+ border: ;
+ color: white;
+ padding: 10px 40px;
+ text-align: center;
+ font-size: 14px;
+ cursor: pointer;
+}
+
+.button:hover {
+ background-color:#2853FE;
+}
+
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+ .column.side, .column.middle {
+   width: 100%;
+ }
+}
+
+/* Style the footer */
+.footer {
+ background-color: #EDBD4C;
+ padding: 10px;
+ text-align: center;
+ position: relative;
+ height: 50px;
+ bottom: 0px;
+ left: 0px;
+ right: 0px;
+ margin-bottom: 0px;
+}
+ 
+
+.container {
+  margin: 80px auto;
+  width: 400px;
+  height: z auto;
+  text-align: center;
+}
+
+.container > .dropdown {
+  margin: 0 20px;
+  vertical-align: top;
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 28px;
+  width: 150px;
+  background: #f2f2f2;
+  border: 1px solid;
+  border-color: white #f7f7f7 whitesmoke;
+  border-radius: 3px;
+  background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.06));
+  background-image: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.06));
+  background-image: -o-linear-gradient(top, transparent, rgba(0, 0, 0, 0.06));
+  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.06));
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown:before, .dropdown:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 9px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 4px dashed;
+  border-color: #888888 transparent;
+  pointer-events: none;
+}
+
+.dropdown:before {
+  border-bottom-style: solid;
+  border-top: none;
+}
+
+.dropdown:after {
+  margin-top: 7px;
+  border-top-style: solid;
+  border-bottom: none;
+}
+
+.dropdown-select {
+  position: relative;
+  width: 130%;
+  margin: 0;
+  padding: 6px 8px 6px 10px;
+  height: 28px;
+  line-height: 14px;
+  font-size: 12px;
+  color: #62717a;
+  text-shadow: 0 1px white;
+  background: #f2f2f2; /* Fallback for IE 8 */
+  background: rgba(0, 0, 0, 0) !important; /* "transparent" doesn't work with Opera */
+  border: 0;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+.dropdown-select:focus {
+  z-index: 3;
+  width: 100%;
+  color: #394349;
+  outline: 2px solid #49aff2;
+  outline: 2px solid -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.dropdown-select > option {
+  margin: 3px;
+  padding: 6px 8px;
+  text-shadow: none;
+  background: #f2f2f2;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Fix for IE 8 putting the arrows behind the select element. */
+
+.lt-ie9 .dropdown {
+  z-index: 1;
+}
+
+.lt-ie9 .dropdown-select {
+  z-index: -1;
+}
+
+.lt-ie9 .dropdown-select:focus {
+  z-index: 3;
+}
+
+/* Dirty fix for Firefox adding padding where it shouldn't. */
+
+@-moz-document url-prefix() {
+  .dropdown-select {
+    padding-left: 6px;
+  }
+}
+
+.dropdown-dark {
+  background: #444;
+  border-color: #111111 #0a0a0a black;
+  background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.4));
+  background-image: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.4));
+  background-image: -o-linear-gradient(top, transparent, rgba(0, 0, 0, 0.4));
+  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-dark:before {
+  border-bottom-color: #aaa;
+}
+
+.dropdown-dark:after {
+  border-top-color: #aaa;
+}
+
+.dropdown-dark .dropdown-select {
+  color: #aaa;
+  text-shadow: 0 1px black;
+  background: #444;  /* Fallback for IE 8 */
+}
+
+.dropdown-dark .dropdown-select:focus {
+  color: #ccc;
+}
+
+.dropdown-dark .dropdown-select > option {
+  background: #444;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.textarea {
+  width: 300px;
+  height: 30px;
+}
+
+
+
+}
+</style>
+</head>
+<body>
+
+<!-- {% if messages %}
+ <ul class="messages">
+   {% for message in messages%}
+     <li class="{{message.tags}}">{{message}}</li>
+     {%endfor%}
+   </ul>
+ {%endif%} -->
+
+<div class="header">
+ <h1>Online Book Store System</h1>
+ <p style="font-family:times new roman;font-size:140%";>TRENDING LIST</p>
+
+</div>
+
+<div class="topnav">
+ <a href="/user/profile">HomePage</a>
+</div>
+
+<div class="row">
+ <div class="column side">
+    <h2 style="font-family:times new roman;font-size:120%";>Profile Info :</h2>
+    <p style="font-family:arial;font-size:90%;line-height:1.2";>
+     User Name  : {{username}}<br><br>
+     User Email : {{email}}<br><br>
+    </p>
+
+  {% if messages %}
+   <ul class="messages">
+     {% for message in messages%}
+       <li class="{{message.tags}}">{{message}}</li>
+       {%endfor%}
+     </ul>
+   {%endif%} 
+ </div>
+ 
+ <div class="column middle">
+   <h3 style="color:#0f2453;border:2px solid #ddd">Top 10 Trending Books</h3>
+   <strong>Choose the Parameter for list</strong>
+   <br><br>
+  <form method="POST">{% csrf_token %}
+  <section class="">
+    <div class="dropdown">
+      <select name = "Parameter" class="dropdown-select">
+        <option value="Parameter">Parameter</option>
+        <option value ="Rating">Rating</option>
+        <option value ="Copies_Sold">Copies Sold</option>
+      </select>
+    </div>
+    </section>
+    <br><br>
+<!--     <input type = "textarea" align = "center" class ="textarea" placeholder = "Enter Category" name ="CategoryIp" size ="40">
+    <br><br> -->
+    <button class="button" style="width: 200px auto"  align = "center" formaction ="{% url 'userTrendingList' %}">submit</button><br><br>
+    </form>
+
+       {% if t_list %}
+
+                       <table border="2" align="center">
+                       <tr style="background-color: #0f2453">
+                            <th style="color: white">Sr No</th>
+                            <th style="color: white">Title</th>
+                            <th style="color: white">Author</th>
+                            <th style="color: white">Publisher</th>                                                       
+                            <th style="color: white">Genre</th>
+                            <th style="color: white">Year Of Publish</th>
+                            <th style="color: white">Ratings</th>
+                            <th style="color: white">Copies Sold</th>
+                        </tr>
+
+
+                       {% for book in t_list%}
+                                        
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.author }}</td>
+                            <td>{{ book.publisher }}</td>
+                            <td>{{ book.genre }}</td>
+                            <td>{{ book.year_of_publish }}</td>
+                            <td>{{ book.rating }}</td>
+                            <td>{{ book.copies_sold }}</td>
+                            
+                       </tr>
+                       {% endfor %}
+                      </table>
+                      
+
+                     
+       {% else %}
+           <h3 align="center">No Books available</h> 
+       {% endif %}
+
+</div>
+ 
+ <div class="column side">
+   <h2></h2>
+   <p></p>
+ </div>
+</div>
+
+<div class="">
+ <p></p>
+</div>
+ 
+</body>
+</html>               
+
+               
+
+
